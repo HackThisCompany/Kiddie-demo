@@ -1,0 +1,25 @@
+- name: "DC9 - Pre demo playbook"
+  hosts: dc9
+  tasks:
+  - name: Download offensive-tor-toolkit
+    become: yes
+    become_user: apache
+    unarchive:
+      src: https://github.com/atorrescogollo/offensive-tor-toolkit/releases/download/v0.1/offensive-tor-toolkit-v0.1.tar.gz
+      dest: /var/lib/httpd/
+      remote_src: yes
+      owner: apache
+      group: apache
+      creates: /var/lib/httpd/offensive-tor-toolkit
+
+  - name: Download Chisel
+    become: yes
+    become_user: apache
+    shell:
+      cmd: |
+        wget https://github.com/jpillora/chisel/releases/download/v1.7.1/chisel_1.7.1_linux_amd64.gz
+        gunzip chisel*.gz && mv chisel* chisel  && chmod +x chisel
+      chdir: /var/lib/httpd/
+      creates: /var/lib/httpd/chisel
+      executable: /bin/bash
+
